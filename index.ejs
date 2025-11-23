@@ -1,0 +1,52 @@
+<section class="card">
+  <h2 class="title">Add Contact</h2>
+
+  <form action="/contacts" method="POST" class="form">
+    <label>Name</label>
+    <input type="text" name="name" required placeholder="Name" />
+
+    <label>Email</label>
+    <input type="email" name="email" placeholder="Email" />
+
+    <label>Phone Number</label>
+    <input type="text" name="phone" placeholder="Phone number" />
+
+    <button type="submit" class="btn">Save</button>
+  </form>
+
+  <hr />
+
+  <h3>Contact List</h3>
+
+  <form method="GET" action="/" class="search-form">
+    <input type="text" name="q" placeholder="Search by name..." value="<%= q %>" />
+    <button type="submit" class="btn small">Search</button>
+    <a href="/" class="btn small ghost">Reset</a>
+  </form>
+
+  <div class="list">
+    <% if (!contacts || contacts.length === 0) { %>
+      <p class="muted">No contacts yet.</p>
+    <% } %>
+
+    <% if (contacts) { 
+       contacts.forEach(function(c) { %>
+      <div class="contact-item">
+        <div>
+          <h4><%= c.name %></h4>
+          <% if (c.email) { %>
+            <div class="meta"><%= c.email %></div>
+          <% } %>
+          <% if (c.phone) { %>
+            <div class="meta"><%= c.phone %></div>
+          <% } %>
+        </div>
+
+        <form action="/contacts/<%= c._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Delete this contact?');">
+          <button type="submit" class="btn danger">Delete</button>
+        </form>
+      </div>
+      <hr />
+    <% }) } %>
+  </div>
+</section>
